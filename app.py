@@ -69,15 +69,15 @@ if page == "Visão Geral":
     st.write("Exemplo dos dados filtrados:")
     st.dataframe(df_filtered.head())
 
-    # Gráfico 1: Screen time x Depressão
-    st.subheader("Tempo de Tela e Depressão")
+    # Gráfico 1: Screen time x Ansiedade
+    st.subheader("Tempo de Tela e Ansiedade")
     fig1 = px.scatter(
         df_filtered,
         x="daily_screen_time_hours",
-        y="weekly_depression_score",
+        y="weekly_anxiety_score",
         color="gender",
         hover_data=["age"],
-        title="Screen Time x Depressão"
+        title="Screen Time x Ansiedade"
     )
     st.plotly_chart(fig1)
 
