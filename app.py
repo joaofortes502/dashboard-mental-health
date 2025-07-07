@@ -172,6 +172,7 @@ elif page == "Saúde Mental e Hábitos":
         names="usa_apps_bem_estar",
         title="Proporção de Pessoas que Usam Apps de Bem-estar"
     )
+    st.plotly_chart(fig4)
 
     # Gráfico 5: Atividade Física x Depressão
     st.subheader("Atividade Física e Depressão")
