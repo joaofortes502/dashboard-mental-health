@@ -124,35 +124,54 @@ if page == "Visão Geral":
     )
     st.plotly_chart(fig2)
 
+    # Gráfico: Faixa idade x Ansiedade
+    df_filtered["faixa_idade"] = pd.cut(df_filtered["idade"], bins=[0,18,30,45,60,100], labels=["0-18","19-30","31-45","46-60","60+"])
+    media_ansiedade_idade = df_filtered.groupby("faixa_idade")["pontuacao_ansiedade_semanal"].mean().reset_index()
+    st.subheader("Média de Ansiedade por Faixa Etária")
+    fig_line = px.line(
+        media_ansiedade_idade,
+        x="faixa_idade",
+        y="pontuacao_ansiedade_semanal",
+        title="Média de Ansiedade por Faixa Etária"
+    )
+    st.plotly_chart(fig_line)
+
+    # Gráfico: Ansiedade x Genero
+    media_ansiedade_genero = df_filtered.groupby("genero")["pontuacao_ansiedade_semanal"].mean().reset_index()
+    st.subheader("Média de Ansiedade por Gênero")
+    fig_bar = px.bar(
+        media_ansiedade_genero,
+        x="genero",
+        y="pontuacao_ansiedade_semanal",
+        title="Média de Ansiedade por Gênero"
+    )
+    st.plotly_chart(fig_bar)
+
 # -----------------------------
 # Página: Saúde Mental e Hábitos
 # -----------------------------
 elif page == "Saúde Mental e Hábitos":
     st.header("Saúde Mental e Hábitos de Vida")
 
-    # Gráfico 3: Mindfulness x Stress
-    st.subheader("Mindfulness e Nível de Stress")
-    fig3 = px.scatter(
-        df_filtered,
-        x="minutos_mindfulness_dia",
-        y="nivel_estresse",
-        color="genero",
-        hover_data=["idade"],
-        title="Mindfulness x Stress"
+    # Gráfico 3: Gráfico de Barras - Média de Atividade Física por Localização
+    media_atividade_localizacao = df_filtered.groupby("tipo_localizacao")["horas_atividade_fisica_semanal"].mean().reset_index()
+    st.subheader("Média de Atividade Física por Localização")
+    fig3 = px.bar(
+        media_atividade_localizacao,
+        x="tipo_localizacao",
+        y="horas_atividade_fisica_semanal",
+        color="tipo_localizacao",
+        title="Média de Atividade Física por Localização"
     )
     st.plotly_chart(fig3)
 
-    # Gráfico 4: Cafeína x Ansiedade
-    st.subheader("Cafeína e Ansiedade")
-    fig4 = px.scatter(
+    # Gráfico 4: Gráfico de Pizza - Proporção de Uso de Apps de Bem-estar
+    st.subheader("Uso de Apps de Bem-estar")
+    fig4 = px.pie(
         df_filtered,
-        x="consumo_cafeina_mg_dia",
-        y="pontuacao_ansiedade_semanal",
-        color="genero",
-        hover_data=["idade"],
-        title="Cafeína x Ansiedade"
+        names="usa_apps_bem_estar",
+        title="Proporção de Pessoas que Usam Apps de Bem-estar"
     )
-    st.plotly_chart(fig4)
 
     # Gráfico 5: Atividade Física x Depressão
     st.subheader("Atividade Física e Depressão")
